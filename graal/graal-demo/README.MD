@@ -1,0 +1,1 @@
+docker build -t native-test . && docker run --rm -p 9090:8080 --name native-test native-test
