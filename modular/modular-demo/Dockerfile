@@ -34,5 +34,5 @@ WORKDIR /app
 COPY --from=builder /app/dist/ ./
 # activate CDS
 RUN bin/java -Xshare:dump
-ENV JAVA_TOOL_OPTIONS="-XX:+UseContainerSupport -Xshare:on -Djava.net.preferIPv4Stack=true -Dio.netty.noUnsafe=true -Dvertx.disableDnsResolver=true"
+ENV JAVA_TOOL_OPTIONS="-XX:+UseContainerSupport -Xshare:on -Djava.net.preferIPv4Stack=true -Dio.netty.noUnsafe=true -Dvertx.disableDnsResolver=true -Djava.security.egd=file:/dev/./urandom"
 CMD bin/run

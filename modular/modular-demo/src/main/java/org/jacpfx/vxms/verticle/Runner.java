@@ -14,7 +14,7 @@ public class Runner {
         final long startTime = System.currentTimeMillis();
 
         // Setup the http server
-        System.out.printf("Starting server for: http://localhost:8080/hello");
+        System.out.printf("Starting server for: http://localhost:8080/hello %n%n");
         Vertx vertx = Vertx.vertx();
         Router router = Router.router(vertx);
 
@@ -28,7 +28,7 @@ public class Runner {
                 .listen(8080, handler -> {
                     long stopTime = System.currentTimeMillis();
                     long elapsedTime = stopTime - startTime;
-                    System.out.println("finished in: " + elapsedTime +" ms");
+                    System.out.println(" %n finished in: " + elapsedTime +" ms");
                 });
 
     }
