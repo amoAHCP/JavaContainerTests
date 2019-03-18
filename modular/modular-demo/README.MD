@@ -1,6 +1,9 @@
+## run Docker demo
+docker build -t modular-demo .
+docker run -p 8080:8080 --name modular-demo --rm modular-demo
 
-> java13
-
+## run without CDS
+mvn clean package
 java --module-path target/modular-demo-1.2-SNAPSHOT.jar:target/modules --module vxms.core.demo/org.jacpfx.vxms.verticle.Runner  
 
 ## create AppCDS
