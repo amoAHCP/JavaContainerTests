@@ -1,5 +1,6 @@
 package org.jacpfx.vxms.verticle;
 
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -8,16 +9,16 @@ import io.vertx.ext.web.Router;
 
 import java.io.File;
 
-public class Runner {
+public class Runner extends AbstractVerticle {
 
-    public static void main(String[] args) {
+    @Override
+    public void start() {
         final long startTime = System.currentTimeMillis();
         initLogging();
         Logger log = LoggerFactory.getLogger(Runner.class);
 
         // Setup the http server
         log.info("Starting server for: http://localhost:8080/hello");
-        Vertx vertx = Vertx.vertx();
         Router router = Router.router(vertx);
 
         router.route("/hello").handler(rc -> {
@@ -32,6 +33,10 @@ public class Runner {
                     long elapsedTime = stopTime - startTime;
                     System.out.println("finished in: " + elapsedTime +" ms");
                 });
+    }
+
+    public static void main(String[] args) {
+        Vertx.vertx().deployVerticle(new Runner());
 
     }
 
