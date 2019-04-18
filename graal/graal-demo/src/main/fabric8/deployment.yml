@@ -1,0 +1,31 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    name: native-test
+    visualize: "true"
+  name: native-test
+spec:
+  replicas: 100
+  template:
+    metadata:
+      labels:
+        name: native-test
+        app: native-test
+        visualize: "true"
+    spec:
+      containers:
+        - name: native-test
+          image: amoahcp/native-test
+          ports:
+          - containerPort: 8080
+          env:
+          - name: LOCAL
+            value: 'false'
+          resources:
+            limits:
+              cpu: 100m
+              memory: 16M
+            requests:
+              cpu: 100m
+              memory: 16M

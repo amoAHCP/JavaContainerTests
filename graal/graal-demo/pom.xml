@@ -30,7 +30,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vxms.version>1.2-SNAPSHOT</vxms.version>
-        <vertx.verticle>org.jacpfx.vxms.verticle.Runner</vertx.verticle>
+        <vertx.verticle>org.jacpfx.vxms.verticle.VxmsRunner</vertx.verticle>
         <netty.version>4.1.19.Final</netty.version>
         <os.name>linux</os.name>
         <os.arch>x86_64</os.arch>
@@ -40,6 +40,8 @@
         <maven.compiler.testSource>1.8</maven.compiler.testSource>
         <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
         <graal.version>1.0.0-rc14</graal.version>
+        <fabric8.build.strategy>docker</fabric8.build.strategy>
+        <fabric8-maven-plugin.version>3.5.42</fabric8-maven-plugin.version>
     </properties>
 
     <repositories>
@@ -53,7 +55,7 @@
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-stack-depchain</artifactId>
-                <version>3.6.3</version>
+                <version>3.7.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -62,12 +64,23 @@
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>vertx-core</artifactId>
+            <artifactId>vertx-mongo-client</artifactId>
+            <version>3.7.0</version>
         </dependency>
-
         <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-web</artifactId>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-transport-native-unix-common</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-transport-native-epoll</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jacpfx</groupId>
+            <artifactId>vxms-rest</artifactId>
+            <version>${vxms.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.graalvm.sdk/graal-sdk -->
         <dependency>
@@ -125,6 +138,7 @@
                     <buildArgs>-H:+ReportUnsupportedElementsAtRuntime --allow-incomplete-classpath</buildArgs>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>

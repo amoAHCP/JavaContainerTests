@@ -46,7 +46,7 @@ final class Target_io_netty_util_internal_PlatformDependent {
 
 /**
  * This substitution forces the usage of the blocking DNS resolver
- */
+
 @TargetClass(className = "io.vertx.core.spi.resolver.ResolverProvider")
 final class TargetResolverProvider {
 
@@ -55,7 +55,7 @@ final class TargetResolverProvider {
         return new DefaultResolverProvider();
     }
 }
-
+ */
 /**
  * This substitution allows the usage of platform specific code to do low level
  * buffer related tasks
