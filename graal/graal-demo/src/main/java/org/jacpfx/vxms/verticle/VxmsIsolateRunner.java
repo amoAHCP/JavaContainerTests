@@ -4,7 +4,6 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.logging.SLF4JLogDelegateFactory;
@@ -19,15 +18,14 @@ import java.io.File;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @ServiceEndpoint
-public class VxmsRunner extends AbstractVerticle {
+public class VxmsIsolateRunner extends AbstractVerticle {
     private MongoClient mongo;
-    Logger log = Logger.getLogger(VxmsRunner.class.getName());
+    Logger log = Logger.getLogger(VxmsIsolateRunner.class.getName());
 
     @Override
-    public void start(io.vertx.core.Future<Void> startFuture) {
+    public void start(Future<Void> startFuture) {
         final long startTime = System.currentTimeMillis();
         VxmsRESTRoutes routes =
                 VxmsRESTRoutes.init()
@@ -59,25 +57,14 @@ public class VxmsRunner extends AbstractVerticle {
     public void getAllUsers(RestHandler reply) {
         reply.
                 response().
-                stringResponse((future) -> mongo.find("users", new JsonObject(), lookup -> {
-                    // error handling
-                    if (lookup.failed()) {
-                        future.fail(lookup.cause());
-                    } else {
-                        future.complete(new JsonArray(lookup.
-                                result().
-                                stream().
-                                collect(Collectors.toList())).
-                                encode());
-                    }
-
-                })).
-                timeout(2000).
+                blocking().
+                stringResponse(() -> UserService.getAllUsers()).
+                timeout(10000).
                 onError(error -> log.log(Level.WARNING, "ERROR: " + error.getMessage())).
-                onFailureRespond((failure, future) ->
-                        future.complete(DefaultResponses.
+                onFailureRespond((failure) ->
+                        DefaultResponses.
                                 defaultErrorResponse(failure.getMessage()).
-                                encodePrettily())
+                                encodePrettily()
                 ).
                 execute();
     }
@@ -135,7 +122,7 @@ public class VxmsRunner extends AbstractVerticle {
         Boolean local = Boolean.valueOf(Optional.ofNullable(System.getenv("LOCAL")).orElse("true"));
         DeploymentOptions options = new DeploymentOptions().setInstances(1).setConfig(new JsonObject().put("local", local));
 
-        Vertx.vertx().deployVerticle(new VxmsRunner(), options);
+        Vertx.vertx().deployVerticle(new VxmsIsolateRunner(), options);
 
     }
 

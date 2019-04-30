@@ -79,7 +79,7 @@ final class Target_io_vertx_core_spi_resolver_ResolverProvider {
         return new io.vertx.core.impl.resolver.DefaultResolverProvider();
     }
 }
-
+/**
 @AutomaticFeature
 class RuntimeReflectionRegistrationFeature implements Feature {
     public void beforeAnalysis(BeforeAnalysisAccess access) {
@@ -111,4 +111,4 @@ class RuntimeReflectionRegistrationFeature implements Feature {
             throw new RuntimeException(e);
         }
     }
-}
+}**/

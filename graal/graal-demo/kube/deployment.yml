@@ -6,7 +6,7 @@ metadata:
     visualize: "true"
   name: native-test
 spec:
-  replicas: 100
+  replicas: 10
   template:
     metadata:
       labels:

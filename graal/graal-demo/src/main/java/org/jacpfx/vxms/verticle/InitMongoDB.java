@@ -30,6 +30,7 @@ public class InitMongoDB {
         // Create a mongo client using all defaults (connect to localhost and default port) using the database name "demo".
         String connectionUrl = connectionURL();
         boolean local = config.getBoolean("local", false);
+        System.out.println("local: "+local);
         if (connectionUrl != null && !local) {
             String dbName = config.getString("dbname", "vxmsdemo");
             mongo = MongoClient.createShared(vertx, new JsonObject().put("connection_string", connectionUrl).put("db_name", dbName));
